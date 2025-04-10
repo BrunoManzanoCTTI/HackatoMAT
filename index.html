@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projecte HackatoMAT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+             /* background-color: #f5f5f5; */ /* Original */
+             background-color: #F8F4EC; /* Beige from image */
+             line-height: 1.6;
+        }
+
+        header {
+            /* background-color: #2c3e50; */ /* Old */
+            background-color: #6A7EFF; /* Blue from screenshot 3 */
+            color: white;
+            text-align: center;
+            padding: 3rem 1rem; /* Adjusted padding */
+            margin-bottom: 3rem; /* Add space below header */
+        }
+        header h1 {
+             font-family: 'Impact', 'Arial Black', sans-serif;
+             font-size: 5rem; /* Larger size */
+             color: white;
+             margin-bottom: 0.5rem;
+        }
+         header p {
+             font-family: 'Impact', 'Arial Black', sans-serif;
+             font-size: 1.8rem;
+             color: white;
+             margin-bottom: 0; /* Remove bottom margin */
+         }
+         /* Placeholder for logo/footer in header if needed */
+         .header-footer {
+             margin-top: 2rem;
+             font-size: 0.9rem;
+             /* Add styles for Generalitat logo text if needed */
+         }
+
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        .highlight {
+            background-color: #e74c3c;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 0.5rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            section {
+                padding: 1rem;
+            }
+        }
+
+        /* New Section Styles */
+        .section-title {
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 3rem;
+            color: #333;
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        .why-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+            background-color: transparent; /* Ensure section bg is transparent */
+            box-shadow: none;
+            padding: 0; /* Remove section padding if container handles it */
+        }
+        .why-item {
+            text-align: left;
+        }
+        .why-item h3 {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        .why-item p {
+            font-family: 'Georgia', serif;
+            font-size: 0.95rem;
+            color: #444;
+            line-height: 1.5;
+            margin-bottom: 0;
+        }
+        .why-item strong { /* Style the bold parts */
+             font-weight: bold;
+             /* color: #e74c3c; */ /* Optional highlight color */
+        }
+
+
+        .what-how-where-section {
+            background-color: #6A7EFF; /* Blue background */
+            color: white;
+            border-radius: 15px; /* Rounded corners */
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        .what-how-where-section .section-title {
+            color: white; /* White title on blue bg */
+            margin-bottom: 2rem;
+        }
+        .what-how-where-image { /* Renamed from placeholder */
+            width: 100%; /* Make image responsive */
+            max-width: 800px; /* Optional max width */
+            height: auto; /* Maintain aspect ratio */
+            display: block; /* Remove extra space below image */
+            margin: 0 auto 2.5rem auto; /* Center image and add bottom margin */
+            border-radius: 8px; /* Keep rounded corners */
+        }
+        .what-how-where-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: left;
+        }
+        .what-how-where-item h3 {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 1.3rem;
+            color: white;
+            margin-bottom: 0.7rem;
+        }
+        .what-how-where-item p {
+            font-family: 'Arial', sans-serif;
+            font-size: 1rem;
+            color: #f0f0f0; /* Lighter text on blue */
+            line-height: 1.5;
+            margin-bottom: 0;
+        }
+
+
+        /* Reset existing/default timeline styles if necessary */
+        .timeline {
+            border-left: none;
+            padding-left: 0;
+            margin: 0; /* Reset margin */
+        }
+        .timeline-item::before {
+            display: none;
+        }
+
+        /* New Timeline Styles */
+        body {
+             /* background-color: #f5f5f5; */ /* Original */
+             background-color: #F8F4EC; /* Beige from image */
+             /* Use a font closer to the image if available, otherwise stick to Arial/sans-serif */
+        }
+
+        #timeline {
+            background-color: transparent; /* Section background not needed if body is colored */
+            box-shadow: none;
+            padding: 3rem 0; /* Adjust padding */
+            text-align: center; /* Center align content */
+            overflow: hidden; /* Prevent horizontal scroll if content overflows slightly */
+        }
+
+        .timeline-container {
+            max-width: 1000px; /* Adjust width */
+            margin: 0 auto;
+            position: relative; /* For absolute positioning of elements */
+            padding: 0 2rem; /* Add some padding */
+        }
+
+        .timeline-title {
+            font-family: 'Impact', 'Arial Black', sans-serif; /* Bold, condensed font */
+            font-size: 3.5rem; /* Adjust size */
+            color: #333; /* Dark grey/black */
+            margin-bottom: 0.5rem;
+            text-align: left;
+            font-weight: bold;
+        }
+        .timeline-title .arrow {
+            font-weight: bold;
+            display: inline-block; /* Ensure it flows correctly */
+        }
+
+        .timeline-duration {
+            font-family: 'Impact', 'Arial Black', sans-serif; /* Bold, condensed font */
+            font-size: 1.8rem; /* Adjust size */
+            color: #333;
+            margin-bottom: 6rem; /* Increased Space before timeline bar */
+            text-align: left;
+            font-weight: bold;
+        }
+
+        /* Event Rows */
+        .events-top, .events-bottom {
+            position: relative; /* Establish positioning context */
+            height: 120px; /* Estimate height to contain events + desc + space */
+            margin-bottom: 1rem; /* Space between events and bar */
+        }
+        .events-bottom {
+            margin-top: 1rem; /* Space between bar and events */
+        }
+
+        .event {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 220px; /* Adjust width */
+            position: absolute; /* Position events absolutely */
+            z-index: 2; /* Above timeline bar */
+        }
+
+        .event-box {
+            padding: 0.6rem 1.8rem;
+            border-radius: 25px; /* Rounded corners */
+            font-weight: bold;
+            font-size: 1.6rem; /* Adjust size */
+            margin-bottom: 0.7rem;
+            z-index: 1;
+            font-family: 'Arial Black', sans-serif; /* Bold font */
+            min-width: 150px; /* Ensure minimum width */
+            text-align: center;
+        }
+
+        .event-desc {
+            font-size: 0.9rem;
+            color: #444; /* Slightly darker text */
+            text-align: center;
+            max-width: 200px; /* Limit width */
+            line-height: 1.3;
+            font-family: 'Georgia', serif; /* Serif font for description */
+        }
+
+        /* Specific Event Styling & Positioning */
+        .events-top .event { bottom: 0; } /* Align to bottom of container */
+        .events-top .event-box {
+            background-color: #D8D8D8; /* Light grey */
+            color: #000; /* Black text */
+        }
+
+        .events-bottom .event { top: 0; } /* Align to top of container */
+        .events-bottom .event-box {
+            background-color: #000; /* Black */
+            color: #fff; /* White text */
+        }
+
+        /* Position events based on timeline percentages */
+        /* Note: left % aligns the *start* of the element. transform centers it. */
+        /* Fine-tuned vertical positioning (bottom/top) */
+        /* Adjusted horizontal positioning for Kick Off and Resultats */
+        .kick-off { left: 1%; transform: translateX(0%); bottom: 28px; } /* Shifted left */
+        .break { left: 55%; transform: translateX(-50%); bottom: 28px; } /* Adjusted space */
+        .resultats { right: 1%; transform: translateX(0%); bottom: 28px; } /* Shifted right */
+
+        .code-time-1 { left: 30%; transform: translateX(-50%); top: 28px; } /* Adjusted space */
+        .code-time-2 { left: 72.5%; transform: translateX(-50%); top: 28px; } /* Adjusted space */
+
+
+        /* Dotted Lines */
+        .event::after {
+            content: '';
+            position: absolute;
+            width: 2px; /* Line thickness */
+            background-image: linear-gradient(to bottom, #b08d57 60%, transparent 60%); /* Dotted effect - Brownish color */
+            background-size: 2px 10px; /* Adjust dot size/spacing */
+            z-index: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none; /* Removed dotted lines */
+        }
+        /* Removed specific ::after rules as display:none handles it */
+
+        /* Timeline Bar */
+        .timeline-bar-container {
+            position: relative;
+            margin: 1rem 0; /* Space around the bar */
+            padding: 0; /* No padding needed if container handles it */
+            height: 20px; /* Height for bar + labels */
+        }
+        .timeline-bar {
+            display: flex;
+            height: 20px; /* Bar height */
+            width: 100%;
+            border-radius: 10px; /* Rounded ends */
+            overflow: hidden; /* Keep segments contained */
+            position: relative; /* For markers */
+            z-index: 1; /* Above background, below events */
+        }
+
+        .segment {
+            height: 100%;
+            flex-grow: 0;
+            flex-shrink: 0;
+        }
+        .segment.blue { background-color: #a6c6e8; flex-basis: 10%; } /* 8-9 (1h) */
+        .segment.dark1 { background-color: #333; flex-basis: 40%; } /* 9-13 (4h) */
+        .segment.break-segment {
+             background: linear-gradient(to right, #a8d8a8, #f0e088); /* Greenish to Yellowish */
+             flex-basis: 10%; /* 13-14 (1h) */
+        }
+        .segment.dark2 { background-color: #333; flex-basis: 25%; } /* 14-16:30 (2.5h) */
+        .segment.pink { background-color: #f8c0c8; flex-basis: 15%; } /* 16:30-18 (1.5h) */
+
+        /* Markers on the bar */
+        .marker {
+            position: absolute;
+            top: -5px; /* Extend slightly above/below */
+            bottom: -5px;
+            width: 2px; /* Marker width */
+            background-color: #b08d57; /* Sienna color */
+            z-index: 3; /* Above bar */
+        }
+        .marker.start { left: 10%; } /* 9:00 */
+        .marker.break-start { left: 50%; } /* 13:00 */
+        .marker.break-end { left: 60%; } /* 14:00 */
+        .marker.results-start {
+             left: 85%; /* 16:30 */
+             background-color: #FFA500; /* Orange */
+             width: 4px; /* Thicker orange marker */
+        }
+
+        /* Time Labels */
+        .time-label {
+            position: absolute;
+            font-size: 0.85rem;
+            color: #555;
+            transform: translateX(-50%); /* Center align */
+            font-family: 'Georgia', serif;
+            z-index: 1;
+        }
+        .time-label.top {
+            bottom: 26px; /* Position closer above bar */
+        }
+        .time-label.bottom {
+            top: 26px; /* Position closer below bar */
+        }
+
+        /* Label Positioning */
+        .label-9-13 { left: 30%; } /* Center of 9-13 segment */
+        .label-14-1630 { left: 72.5%; } /* Center of 14-16:30 segment */
+        .label-8-9 { left: 5%; } /* Center of 8-9 segment */
+        .label-13-14 { left: 55%; } /* Center of 13-14 segment */
+        .label-1630-18 { left: 92.5%; } /* Center of 16:30-18 segment */
+
+
+        /* Responsive Adjustments */
+        @media (max-width: 900px) {
+             .timeline-container { padding: 0 1rem; }
+             .timeline-title { font-size: 2.5rem; }
+             .timeline-duration { font-size: 1.5rem; margin-bottom: 4rem;}
+             .event-box { font-size: 1.2rem; padding: 0.4rem 1.2rem; }
+             .event-desc { font-size: 0.8rem; }
+             .event { width: 180px; }
+             .kick-off { left: 2%; }
+             .resultats { right: 2%; }
+        }
+
+        @media (max-width: 768px) {
+            .timeline-title { font-size: 2rem; text-align: center;}
+            .timeline-duration { font-size: 1.2rem; text-align: center; margin-bottom: 3rem;}
+            .events-top, .events-bottom { height: auto; display: block; margin: 0;} /* Stack vertically */
+            .event {
+                position: relative; /* Change from absolute */
+                left: auto; right: auto; top: auto; bottom: auto;
+                transform: none;
+                width: 90%;
+                margin: 0 auto 2.5rem auto; /* Center and space out */
+            }
+             .events-top .event { margin-bottom: 2.5rem; }
+             .events-bottom .event { margin-top: 2.5rem; }
+
+            .event::after { display: none; } /* Hide dotted lines */
+            .timeline-bar-container { margin: 2rem 0; }
+            .time-label { font-size: 0.75rem; }
+            .time-label.top { bottom: 22px; }
+            .time-label.bottom { top: 22px; }
+            .marker { top: 0; bottom: 0; } /* Keep markers within bar height */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>HACKATÓ MAT</h1>
+        <p>MARC D'AUTOMATITZACIÓ DE TESTING</p>
+         <!-- Placeholder for logo/date/location from screenshot 3 -->
+         <div class="header-footer">
+             <!-- Combined text with line break -->
+             Generalitat de Catalunya | Centre de Telecomunicacions i Tecnologies de la Informació<br>14 de maig | Espai Bital, CTTI
+         </div>
+    </header>
+
+    <div class="container">
+
+        <!-- "PER QUÈ?" Section -->
+        <section class="why-section">
+             <h2 class="section-title" style="grid-column: 1 / -1;">PER QUÈ?</h2>
+             <div class="why-item">
+                 <!-- Icon Placeholder -->
+                 <h3>1. Aprenentatge experiencial</h3>
+                 <p><strong>En lloc de formació teòrica</strong>, oferim una experiència pràctica on els testers poden experimentar i aprendre fent servir el MAT</p>
+             </div>
+             <div class="why-item">
+                 <!-- Icon Placeholder -->
+                 <h3>2. Alternativa innovadora.</h3>
+                 <p>És una <strong>forma d'aprenentatge diferent</strong> a les tradicionals, més atractiva i eficaç per als equips.</p>
+             </div>
+             <div class="why-item">
+                 <!-- Icon Placeholder -->
+                 <h3>3. Integració de TOTS els proveïdors</h3>
+                 <p>Involucra a tots els proveïdors en un projecte comú, facilitant l'<strong>intercanvi de coneixement</strong> i la col·laboració</p>
+             </div>
+             <div class="why-item">
+                 <!-- Icon Placeholder -->
+                 <h3>4. Construcció de comunitat</h3>
+                 <p>Fomenta l'<strong>esperit d'equip</strong> i la creació d'una <strong>comunitat</strong> de testers que comparteixen coneixement i experiències.</p>
+             </div>
+        </section>
+
+        <!-- "QUÈ, COM, ON?" Section -->
+        <section class="what-how-where-section">
+            <h2 class="section-title">QUÈ, COM, ON?</h2>
+            <img src="bital.png" alt="Hackató del M.A.T. event photo at Espai Bital" class="what-how-where-image">
+            <div class="what-how-where-points">
+                <div class="what-how-where-item">
+                    <h3>1. Objectiu</h3>
+                    <p>Promoure l'ús del Marc d'Automatització de Testing</p>
+                </div>
+                <div class="what-how-where-item">
+                    <h3>2. Organització</h3>
+                    <p>Es treballarà per grups de 4 persones de tots els proveïdors.</p>
+                </div>
+                <div class="what-how-where-item">
+                    <h3>3. Espai i dia</h3>
+                    <p>La hackató es durà a terme a l'Espai Bital i al Nubí al Maig</p> <!-- Note: Header mentions 14 de maig -->
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Timeline Section (Existing) -->
+        <section id="timeline">
+            <div class="timeline-container">
+                <h2 class="timeline-title">HACKATÓ PLANNING <span class="arrow">↓</span></h2>
+                <p class="timeline-duration">8:00 a 18:00</p>
+
+                <div class="events-top">
+                    <div class="event kick-off">
+                        <div class="event-box">Kick Off</div>
+                        <p class="event-desc">Presentació del repte i organització dels grups de treball</p>
+                    </div>
+                    <div class="event break">
+                        <div class="event-box">Break</div>
+                        <p class="event-desc">Pausa per descansar i dinar</p>
+                    </div>
+                    <div class="event resultats">
+                        <div class="event-box">Resultats</div>
+                        <p class="event-desc">Evaluació de guanyadors i premis</p>
+                    </div>
+                </div>
+
+                <div class="timeline-bar-container">
+                     <div class="time-label top label-9-13">9:00 - 13:00</div>
+                     <div class="time-label top label-14-1630">14:00 - 16:30</div>
+                    <div class="timeline-bar">
+                        <div class="segment blue"></div>
+                        <div class="segment dark1"></div>
+                        <div class="segment break-segment"></div>
+                        <div class="segment dark2"></div>
+                        <div class="segment pink"></div>
+                         <!-- Markers -->
+                         <div class="marker start"></div>
+                         <div class="marker break-start"></div>
+                         <div class="marker break-end"></div>
+                         <div class="marker results-start"></div>
+                    </div>
+                     <div class="time-label bottom label-8-9">8:00 - 9:00</div>
+                     <div class="time-label bottom label-13-14">13:00 - 14:00</div>
+                     <div class="time-label bottom label-1630-18">16:30 - 18:00</div>
+                </div>
+
+                <div class="events-bottom">
+                     <div class="event code-time-1">
+                        <div class="event-box">Code Time 1</div>
+                        <p class="event-desc">Temps destinat a fer servir el MAT i solucionar els reptes acordats</p>
+                    </div>
+                     <div class="event code-time-2">
+                        <div class="event-box">Code Time 2</div>
+                        <p class="event-desc">Temps destinat a fer servir el MAT i solucionar els reptes acordats</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>Contacte</h2>
+            <p>Per obtenir més informació sobre el projecte HackatoMAT, contacteu amb nosaltres:</p>
+            <p>Email: info@hackatoMAT.org</p>
+            <p>Telèfon: (123) 456-7890</p>
+        </section>
+    </div>
+</body>
+</html>
