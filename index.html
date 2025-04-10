@@ -408,6 +408,58 @@
             .time-label.bottom { top: 22px; }
             .marker { top: 0; bottom: 0; } /* Keep markers within bar height */
         }
+
+        /* Scroll Navigation Styles */
+        .scroll-nav {
+            position: fixed;
+            top: 50%;
+            right: 30px; /* Position from right edge */
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1000; /* Ensure it's above other content */
+        }
+
+        .scroll-nav::before { /* The vertical line */
+            content: '';
+            position: absolute;
+            top: 10px; /* Start/end padding for the line */
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px; /* Line thickness */
+            background-color: #ccc; /* Line color */
+            z-index: 1; /* Base layer */
+        }
+
+        .scroll-progress { /* Style for the progress fill */
+            position: absolute; /* Ensure positioning context */
+            top: 10px; /* Match ::before padding */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px; /* Match ::before width */
+            background-color: #333; /* Fill color (e.g., black) */
+            height: 0; /* Start with no fill */
+            z-index: 2; /* Above background line */
+            transition: height 0.1s linear; /* Slightly slower transition */
+        }
+
+        .scroll-nav a {
+            position: relative; /* Needed for z-index */
+            display: block;
+            width: 12px; /* Dot size */
+            height: 12px; /* Dot size */
+            border-radius: 50%;
+            background-color: #ccc; /* Default dot color */
+            margin: 15px 0; /* Spacing between dots */
+            transition: background-color 0.3s ease; /* Smooth transition */
+            z-index: 3; /* Above progress bar */
+        }
+
+        .scroll-nav a.active {
+            background-color: #6A7EFF; /* Active dot color (matches header) */
+        }
     </style>
 </head>
 <body>
@@ -424,7 +476,7 @@
     <div class="container">
 
         <!-- "PER QUÈ?" Section -->
-        <section class="why-section">
+        <section id="why" class="why-section"> <!-- Added ID -->
              <h2 class="section-title" style="grid-column: 1 / -1;">PER QUÈ?</h2>
              <div class="why-item">
                  <!-- Icon Placeholder -->
@@ -449,7 +501,7 @@
         </section>
 
         <!-- "QUÈ, COM, ON?" Section -->
-        <section class="what-how-where-section">
+        <section id="what-how-where" class="what-how-where-section"> <!-- Added ID -->
             <h2 class="section-title">QUÈ, COM, ON?</h2>
             <img src="bital.png" alt="Hackató del M.A.T. event photo at Espai Bital" class="what-how-where-image">
             <div class="what-how-where-points">
@@ -523,12 +575,108 @@
             </div>
         </section>
 
-        <section id="contact">
-            <h2>Contacte</h2>
-            <p>Per obtenir més informació sobre el projecte HackatoMAT, contacteu amb nosaltres:</p>
-            <p>Email: info@hackatoMAT.org</p>
-            <p>Telèfon: (123) 456-7890</p>
-        </section>
+        <!-- Contact Section Removed -->
     </div>
+
+    <!-- Scroll Navigation -->
+    <nav class="scroll-nav">
+        <div class="scroll-progress"></div> <!-- Added progress bar element -->
+        <a href="#why" data-section="why"></a>
+        <a href="#what-how-where" data-section="what-how-where"></a>
+        <a href="#timeline" data-section="timeline"></a>
+    </nav>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.scroll-nav a');
+            const sections = document.querySelectorAll('section[id]'); // Select sections with IDs
+            const scrollProgress = document.querySelector('.scroll-progress'); // Get progress bar
+            const scrollNav = document.querySelector('.scroll-nav'); // Get nav container
+
+            // Function to update active link and progress bar
+            const updateScrollNav = () => {
+                let currentSectionId = '';
+                let maxVisibleRatio = 0;
+
+                sections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    const windowHeight = window.innerHeight;
+                    
+                    // Calculate how much of the section is visible
+                    const visibleHeight = Math.max(0, Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0));
+                    const visibleRatio = visibleHeight / rect.height; // Ratio of section height visible
+
+                    // Consider a section "active" if a significant part is visible,
+                    // prioritizing the one most visible or the one closest to the middle/top.
+                    // A simpler approach: find the section whose top is closest to the top of the viewport but not above it.
+                    
+                    let sectionTop = rect.top;
+                    let sectionBottom = rect.bottom;
+                    let offset = windowHeight * 0.4; // Trigger point slightly below middle
+
+                    // Check if the section is within the viewport trigger zone
+                    if (sectionTop <= offset && sectionBottom >= offset) {
+                         currentSectionId = section.getAttribute('id');
+                         // No need to check further once a section is found in the zone
+                         return; 
+                    }
+                });
+
+                // If no section is perfectly in the zone (e.g., scrolling fast or at edges),
+                // fallback to the first section whose top is above the offset
+                if (!currentSectionId) {
+                     for (let section of sections) {
+                         if (section.getBoundingClientRect().top <= offset) {
+                             currentSectionId = section.getAttribute('id');
+                         } else {
+                             break; // Stop checking once we pass the trigger point
+                         }
+                     }
+                }
+
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-section') === currentSectionId) {
+                        link.classList.add('active');
+                    }
+                });
+
+                // Calculate scroll progress
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight;
+                const windowHeight = window.innerHeight;
+                const scrollableHeight = docHeight - windowHeight;
+                const scrollPercent = (scrollTop / scrollableHeight) * 100;
+
+                // Update progress bar height (relative to the nav container height minus padding)
+                const navHeight = scrollNav.clientHeight;
+                const navPadding = 20; // Corresponds to top: 10px + bottom: 10px of ::before
+                const progressBarHeight = ((navHeight - navPadding) * scrollPercent) / 100;
+                
+                // Ensure height doesn't exceed the line's bounds
+                scrollProgress.style.height = `${Math.min(progressBarHeight, navHeight - navPadding)}px`; 
+
+            };
+
+            // Initial check on load
+            updateScrollNav();
+
+            // Update on scroll
+            window.addEventListener('scroll', updateScrollNav);
+
+            // Smooth scroll for nav links (optional but nice)
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
